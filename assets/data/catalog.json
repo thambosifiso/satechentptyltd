@@ -64,13 +64,13 @@
       "highlights": ["Dual camera", "Fast performance"]
     },
     {
-      "id": "iphone-12",
+      "id": "iPhone12",
       "category": "iphones",
       "name": "iPhone 12",
       "brand": "Apple",
       "condition": "Refurbished",
-      "price": 6999,
-      "images": ["assets/img/products/iphone-12.png"],
+      "price": 100000,
+      "images": ["assets/img/products/iPhone12.png"],
       "specs": { "Storage": "128GB", "Warranty": "6 Months" },
       "highlights": ["5G ready", "OLED display"]
     },
