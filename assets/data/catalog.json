@@ -14,7 +14,7 @@
       "name": "iPhone 7",
       "brand": "Apple",
       "condition": "Used",
-      "price": 2499,
+      "price": 10000,
       "images": ["assets/img/products/iphone-7.png"],
       "specs": { "Storage": "32GB", "Warranty": "1 Month" },
       "highlights": ["Fully tested", "Good condition"]
