@@ -9,10 +9,11 @@ export async function renderTopbar(site){
   const session = await getSession();
 
   const logoHtml = `
-    <div class="logo" id="logoBtn" title="Home">
-      <img class="logo-img" src="assets/img/logo.png" alt="SATECH"
-        onerror="this.outerHTML='<div class=&quot;logo-badge&quot;>SATECH</div>'">
-    </div>
+    <div class="brand" style="display:flex;align-items:center;gap:10px">
+  <img src="assets/img/logo.png" alt="SATECH Logo" style="height:38px">
+  <span style="font-weight:900;letter-spacing:.5px">SATECH</span>
+</div>
+
   `;
 
   el.innerHTML = `
