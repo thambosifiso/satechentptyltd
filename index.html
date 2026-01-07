@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SATECH ENTERPRISE</title>
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="phone">
+      <header class="topbar" id="topbar"></header>
+      <main id="view"></main>
+      <footer class="footer" id="footer"></footer>
+
+      <aside class="sheet" id="sheet" aria-hidden="true"></aside>
+
+      <div class="overlay" id="overlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-label="Complete Payment">
+          <h2>Complete Payment</h2>
+          <div class="paybox" id="paybox"></div>
+          <div class="due">Total Due: <span id="dueText">R0</span></div>
+
+          <div class="proof">
+            📌 Send proof of payment to:<br>
+            Email: <span id="payEmail"></span><br>
+            WhatsApp: <span id="payWhatsapp"></span>
+          </div>
+
+          <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button class="btn-soft btn-pill" id="waCheckoutBtn">WhatsApp Checkout</button>
+            <button class="btn-primary btn-pill" id="closePaymentBtn">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

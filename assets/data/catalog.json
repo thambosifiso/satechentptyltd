@@ -1,0 +1,82 @@
+{
+  "categories": [
+    {
+      "slug": "iphones",
+      "title": "Apple iPhones",
+      "desc": "Original iPhones, new & used, tested, verified and ready to perform. From iPhone 7 to the latest Pro Max models.",
+      "heroImg": "https://images.unsplash.com/photo-1603898037225-58b0a3f8f0a9?auto=format&fit=crop&w=1200&q=70"
+    },
+    {
+      "slug": "accessories",
+      "title": "Tech Accessories",
+      "desc": "High-quality accessories to protect, power and enhance your devices. Compatible with laptops, phones & smart devices.",
+      "heroImg": "https://images.unsplash.com/photo-1585386959984-a41552231693?auto=format&fit=crop&w=1200&q=70"
+    },
+    {
+      "slug": "new-laptops",
+      "title": "New Laptops",
+      "desc": "Reliable new laptops for work, school and business performance.",
+      "heroImg": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=70"
+    }
+  ],
+  "products": [
+    {
+      "id": "ipx",
+      "category": "iphones",
+      "name": "iPhone X",
+      "brand": "Apple",
+      "condition": "Used",
+      "price": 4999,
+      "images": [
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=70",
+        "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=1200&q=70"
+      ],
+      "specs": {
+        "Storage": "64GB",
+        "Color": "Space Gray",
+        "Warranty": "3 Months",
+        "Battery Health": "80%+"
+      },
+      "highlights": [
+        "Tested & verified",
+        "Face ID",
+        "Great value"
+      ]
+    },
+    {
+      "id": "ipxr",
+      "category": "iphones",
+      "name": "iPhone XR",
+      "brand": "Apple",
+      "condition": "Used",
+      "price": 5499,
+      "images": [
+        "https://images.unsplash.com/photo-1510557880182-3b6f6d7f37d8?auto=format&fit=crop&w=1200&q=70"
+      ],
+      "specs": {
+        "Storage": "64GB",
+        "Warranty": "3 Months"
+      },
+      "highlights": [
+        "Bigger screen",
+        "Excellent battery"
+      ]
+    },
+    {
+      "id": "charger",
+      "category": "accessories",
+      "name": "Fast Charger",
+      "brand": "Generic",
+      "condition": "New",
+      "price": 299,
+      "images": [
+        "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=1200&q=70"
+      ],
+      "specs": {
+        "Type": "USB-C",
+        "Power": "20W"
+      },
+      "highlights": ["Quick charge", "Compact"]
+    }
+  ]
+}
