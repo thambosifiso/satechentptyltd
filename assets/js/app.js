@@ -3,6 +3,7 @@ import { route, go } from "./router.js";
 import { addToCart, getCart, setQty } from "./store.js";
 import { renderTopbar, renderFooter, renderMenu, updateCartBadge, openPaymentModal, closePaymentModal, buildWhatsAppMessage, closeMenu } from "./ui.js";
 import { fmtZar, capWords } from "./utils.js";
+import { signup, login, logout, getSession, requireAuth } from "./auth.js";
 
 const view = () => document.getElementById("view");
 
@@ -10,19 +11,20 @@ let SITE = null;
 let CATEGORIES = [];
 let PRODUCTS = [];
 
-window.addEventListener("hashchange", () => { render(); closeMenu(); });
+window.addEventListener("hashchange", async () => { await render(); closeMenu(); });
+
 window.addEventListener("load", async () => {
   const { site, catalog } = await loadData();
   SITE = site;
   CATEGORIES = catalog.categories || [];
   PRODUCTS = catalog.products || [];
-  render();
+  await render();
 });
 
-function render(){
-  renderTopbar(SITE);
+async function render(){
+  await renderTopbar(SITE);
   renderFooter(SITE, CATEGORIES);
-  renderMenu(CATEGORIES);
+  await renderMenu(CATEGORIES);
   wireModal();
 
   const r = route();
@@ -31,6 +33,12 @@ function render(){
   // Hide back button on home
   const backBtn = document.getElementById("backBtn");
   if(backBtn) backBtn.style.visibility = (r.raw === "#/" || r.raw === "#" || r.raw === "") ? "hidden" : "visible";
+
+  // AUTH ROUTES
+  if(parts[0] === "login") return renderLogin();
+  if(parts[0] === "signup") return renderSignup();
+  if(parts[0] === "account") return renderAccount();
+  if(parts[0] === "logout") { await logout(); go("#/"); return; }
 
   if(parts[0] === "" || parts[0] === undefined) return renderHome();
   if(parts[0] === "category") return renderCategory(parts[1]);
@@ -356,7 +364,11 @@ function renderCart(){
 
   const checkoutBtn = document.getElementById("checkoutBtn");
   if(checkoutBtn){
-    checkoutBtn.onclick = () => {
+    checkoutBtn.onclick = async () => {
+      // ✅ REQUIRE LOGIN BEFORE CHECKOUT
+      try { await requireAuth(); }
+      catch { go("#/login"); return; }
+
       const reference = makeReference();
       const waMessage = buildWhatsAppMessage(SITE, items, total, reference);
       openPaymentModal(SITE, total, reference, waMessage);
@@ -406,6 +418,126 @@ function renderService(slug){
   document.getElementById("contactBtn").onclick = () => go("#/contact");
 }
 
+/* =========================
+   AUTH PAGES
+========================= */
+
+function renderLogin(){
+  view().innerHTML = `
+    <section class="page page-anim">
+      <div class="title">Login</div>
+      <p class="subtitle">Access your account to checkout faster.</p>
+
+      <div class="card" style="margin-top:18px">
+        <div class="card-inner">
+          <input class="input" id="email" placeholder="Email" />
+          <div style="height:10px"></div>
+          <input class="input" id="password" type="password" placeholder="Password" />
+          <div style="height:14px"></div>
+
+          <button class="btn-primary btn-pill" id="loginBtn" style="width:100%">Login</button>
+
+          <div id="err" style="color:#b42318;font-weight:800;margin-top:12px;display:none"></div>
+
+          <div style="margin-top:14px;color:var(--muted);font-weight:800;text-align:center">
+            No account? <a href="#/signup" style="color:var(--primary2);font-weight:900">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.getElementById("loginBtn").onclick = async () => {
+    const err = document.getElementById("err");
+    err.style.display = "none";
+    try{
+      await login({
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      });
+      go("#/account");
+    }catch(e){
+      err.textContent = e.message;
+      err.style.display = "block";
+    }
+  };
+}
+
+function renderSignup(){
+  view().innerHTML = `
+    <section class="page page-anim">
+      <div class="title">Sign Up</div>
+      <p class="subtitle">Create an account for easy checkout.</p>
+
+      <div class="card" style="margin-top:18px">
+        <div class="card-inner">
+          <input class="input" id="name" placeholder="Full Name" />
+          <div style="height:10px"></div>
+          <input class="input" id="email" placeholder="Email" />
+          <div style="height:10px"></div>
+          <input class="input" id="password" type="password" placeholder="Password" />
+          <div style="height:14px"></div>
+
+          <button class="btn-primary btn-pill" id="signupBtn" style="width:100%">Create Account</button>
+
+          <div id="err" style="color:#b42318;font-weight:800;margin-top:12px;display:none"></div>
+
+          <div style="margin-top:14px;color:var(--muted);font-weight:800;text-align:center">
+            Already have an account? <a href="#/login" style="color:var(--primary2);font-weight:900">Login</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.getElementById("signupBtn").onclick = async () => {
+    const err = document.getElementById("err");
+    err.style.display = "none";
+    try{
+      await signup({
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      });
+      go("#/account");
+    }catch(e){
+      err.textContent = e.message;
+      err.style.display = "block";
+    }
+  };
+}
+
+async function renderAccount(){
+  const s = await getSession();
+  if(!s) { go("#/login"); return; }
+
+  view().innerHTML = `
+    <section class="page page-anim">
+      <div class="title">My Account</div>
+      <p class="subtitle">Welcome back, <b>${s.name}</b>.</p>
+
+      <div class="card" style="margin-top:18px">
+        <div class="card-inner">
+          <div style="font-weight:900;margin-bottom:8px">Account Info</div>
+          <div style="color:var(--muted);font-weight:800;line-height:1.9">
+            Name: ${s.name}<br>
+            Email: ${s.email}
+          </div>
+
+          <div style="height:14px"></div>
+          <button class="btn-soft btn-pill" id="logoutBtn" style="width:100%">Logout</button>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.getElementById("logoutBtn").onclick = async () => {
+    await logout();
+    go("#/");
+  };
+}
+
+/* MODAL */
 function wireModal(){
   document.getElementById("closePaymentBtn").onclick = closePaymentModal;
   document.getElementById("overlay").onclick = (e) => {

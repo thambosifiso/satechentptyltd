@@ -1,14 +1,17 @@
-import { cartCount, getCart } from "./store.js";
+// assets/js/ui.js
+import { cartCount } from "./store.js";
 import { go } from "./router.js";
 import { fmtZar, encodeMsg } from "./utils.js";
+import { getSession, logout } from "./auth.js";
 
-export function renderTopbar(site){
+export async function renderTopbar(site){
   const el = document.getElementById("topbar");
+  const session = await getSession();
 
-  // If you add assets/img/logo.png it will show automatically
   const logoHtml = `
     <div class="logo" id="logoBtn" title="Home">
-      <img class="logo-img" src="assets/img/logo.png" alt="SATECH" onerror="this.outerHTML='<div class=&quot;logo-badge&quot;>SATECH</div>'">
+      <img class="logo-img" src="assets/img/logo.png" alt="SATECH"
+        onerror="this.outerHTML='<div class=&quot;logo-badge&quot;>SATECH</div>'">
     </div>
   `;
 
@@ -19,6 +22,8 @@ export function renderTopbar(site){
       <div class="back-pill">
         <button class="btn-primary btn-pill btn-wide" id="backBtn">← Back to Home</button>
       </div>
+
+      <button class="icon-btn" id="accountBtn" aria-label="Account" title="Account">👤</button>
 
       <button class="icon-btn" id="cartBtn" aria-label="Cart">
         🛒 <span class="badge" id="cartCount">0</span>
@@ -32,6 +37,11 @@ export function renderTopbar(site){
   document.getElementById("backBtn").onclick = () => go("#/");
   document.getElementById("cartBtn").onclick = () => go("#/cart");
   document.getElementById("menuBtn").onclick = () => toggleMenu();
+
+  document.getElementById("accountBtn").onclick = () => {
+    if(session) go("#/account");
+    else go("#/login");
+  };
 
   updateCartBadge();
 }
@@ -66,18 +76,40 @@ export function renderFooter(site, categories){
       </div>
     </div>
   `;
+
   document.getElementById("supportBtn").onclick = () => go("#/contact");
 }
 
-export function renderMenu(categories){
+export async function renderMenu(categories){
+  const session = await getSession();
   const sheet = document.getElementById("sheet");
+
   sheet.innerHTML = `
     <h3>Menu</h3>
     <a href="#/">Home</a>
     ${categories.map(c => `<a href="#/category/${c.slug}">${c.title}</a>`).join("")}
     <a href="#/contact">Contact</a>
     <a href="#/cart">Cart</a>
+
+    <h3 style="margin-top:18px">Account</h3>
+    ${session ? `
+      <a href="#/account">My Account</a>
+      <a href="#/logout" id="logoutLink">Logout</a>
+    ` : `
+      <a href="#/login">Login</a>
+      <a href="#/signup">Sign Up</a>
+    `}
   `;
+
+  const logoutLink = document.getElementById("logoutLink");
+  if(logoutLink){
+    logoutLink.onclick = async (e) => {
+      e.preventDefault();
+      await logout();
+      go("#/");
+      closeMenu();
+    };
+  }
 }
 
 export function toggleMenu(){
@@ -131,24 +163,6 @@ export function openPaymentModal(site, total, reference, waMessage){
   document.getElementById("waCheckoutBtn").onclick = () => {
     const url = `https://wa.me/${site.whatsappNumber}?text=${encodeMsg(waMessage)}`;
     window.open(url, "_blank");
-  };
-
-  document.getElementById("copyDetailsBtn").onclick = async () => {
-    const text =
-`Bank: ${site.payment.bank}
-Account Name: ${site.payment.accountName}
-Account Number: ${site.payment.accountNumber}
-Branch Code: ${site.payment.branchCode}
-Reference: ${reference}
-Total: ${fmtZar(total)}
-Send proof to: ${site.email} / ${site.whatsappDisplay}`;
-    try{
-      await navigator.clipboard.writeText(text);
-      document.getElementById("copyDetailsBtn").textContent = "Copied ✓";
-      setTimeout(()=>{ document.getElementById("copyDetailsBtn").textContent="Copy Bank Details"; }, 1200);
-    }catch{
-      alert("Copy not supported on this browser. Please copy manually.");
-    }
   };
 }
 
