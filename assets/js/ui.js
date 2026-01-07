@@ -1,67 +1,70 @@
 // assets/js/ui.js
-import { cartCount } from "./store.js";
 import { go } from "./router.js";
-import { fmtZar, encodeMsg } from "./utils.js";
+import { cartCount } from "./store.js";
+import { fmtZar } from "./utils.js";
 import { getSession, logout } from "./auth.js";
 
+const $ = (id) => document.getElementById(id);
+
 export async function renderTopbar(site){
-  const el = document.getElementById("topbar");
+  const el = $("topbar");
   const session = await getSession();
-
-  const logoHtml = `
-    <div class="brand" style="display:flex;align-items:center;gap:10px">
-  <img src="assets/img/logo.png" alt="SATECH Logo" style="height:38px">
-  <span style="font-weight:900;letter-spacing:.5px">SATECH</span>
-</div>
-
-  `;
 
   el.innerHTML = `
     <div class="topbar-inner">
-      ${logoHtml}
-
-      <div class="back-pill">
-        <button class="btn-primary btn-pill btn-wide" id="backBtn">← Back to Home</button>
+      <div class="brand" id="logoBtn" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+        <img src="assets/img/logo.png" alt="SATECH Logo"
+             style="height:34px;width:34px;object-fit:contain;display:block"
+             onerror="this.style.display='none'">
+        <span style="font-weight:900;letter-spacing:.3px">SATECH</span>
       </div>
+
+      <button class="btn-primary btn-pill" id="backBtn">← Back to Home</button>
 
       <button class="icon-btn" id="accountBtn" aria-label="Account" title="Account">👤</button>
 
-      <button class="icon-btn" id="cartBtn" aria-label="Cart">
+      <button class="icon-btn" id="cartBtn" aria-label="Cart" title="Cart">
         🛒 <span class="badge" id="cartCount">0</span>
       </button>
 
-      <button class="icon-btn" id="menuBtn" aria-label="Menu">☰</button>
+      <button class="icon-btn" id="menuBtn" aria-label="Menu" title="Menu">☰</button>
     </div>
   `;
 
-  document.getElementById("logoBtn").onclick = () => go("#/");
-  document.getElementById("backBtn").onclick = () => go("#/");
-  document.getElementById("cartBtn").onclick = () => go("#/cart");
-  document.getElementById("menuBtn").onclick = () => toggleMenu();
+  $("logoBtn").onclick = () => go("#/");
+  $("backBtn").onclick = () => go("#/");
+  $("cartBtn").onclick = () => go("#/cart");
 
-  document.getElementById("accountBtn").onclick = () => {
+  $("accountBtn").onclick = () => {
     if(session) go("#/account");
     else go("#/login");
   };
+
+  $("menuBtn").onclick = () => toggleMenu();
 
   updateCartBadge();
 }
 
 export function renderFooter(site, categories){
-  const el = document.getElementById("footer");
+  const el = $("footer");
+  if(!el) return;
+
   el.innerHTML = `
     <div style="text-align:center; color:rgba(255,255,255,.86); margin-bottom:10px; font-weight:700;">
-      ${site.supportText}
+      ${site?.supportText || "Book your repair and let our experts handle it efficiently."}
     </div>
-    <button class="support" id="supportBtn">Contact Support</button>
 
-    <h3>${site.brand}</h3>
-    <p>${site.tagline}</p>
+    <div style="display:flex;justify-content:center;margin-bottom:14px">
+      <button class="support" id="supportBtn">Contact Support</button>
+    </div>
+
+    <h3>${site?.brand || "SATECH ENTERPRISE"}</h3>
+    <p>${site?.tagline || "Gadgets, accessories & repairs you can trust."}</p>
 
     <div class="cols">
       <div class="col">
         <h4>Shop</h4>
-        ${categories.map(c => `<a href="#/category/${c.slug}">${c.title}</a>`).join("")}
+        ${(categories||[]).map(c => `<a href="#/category/${c.slug}">${c.title}</a>`).join("")}
       </div>
 
       <div class="col">
@@ -73,22 +76,25 @@ export function renderFooter(site, categories){
 
       <div class="col">
         <h4>Powered By</h4>
-        <p>SATECH ENTEPRISE</p>
+        <p><!-- removed --></p>
       </div>
     </div>
   `;
 
-  document.getElementById("supportBtn").onclick = () => go("#/contact");
+  const supportBtn = $("supportBtn");
+  if(supportBtn) supportBtn.onclick = () => go("#/contact");
 }
 
 export async function renderMenu(categories){
+  const sheet = $("sheet");
+  if(!sheet) return;
+
   const session = await getSession();
-  const sheet = document.getElementById("sheet");
 
   sheet.innerHTML = `
     <h3>Menu</h3>
     <a href="#/">Home</a>
-    ${categories.map(c => `<a href="#/category/${c.slug}">${c.title}</a>`).join("")}
+    ${(categories||[]).map(c => `<a href="#/category/${c.slug}">${c.title}</a>`).join("")}
     <a href="#/contact">Contact</a>
     <a href="#/cart">Cart</a>
 
@@ -102,41 +108,49 @@ export async function renderMenu(categories){
     `}
   `;
 
-  const logoutLink = document.getElementById("logoutLink");
+  const logoutLink = $("logoutLink");
   if(logoutLink){
     logoutLink.onclick = async (e) => {
       e.preventDefault();
       await logout();
-      go("#/");
       closeMenu();
+      go("#/");
     };
   }
 }
 
-export function toggleMenu(){
-  const sheet = document.getElementById("sheet");
-  sheet.classList.toggle("open");
-  sheet.setAttribute("aria-hidden", sheet.classList.contains("open") ? "false" : "true");
-}
-
-export function closeMenu(){
-  const sheet = document.getElementById("sheet");
-  sheet.classList.remove("open");
-  sheet.setAttribute("aria-hidden","true");
-}
-
 export function updateCartBadge(){
-  const badge = document.getElementById("cartCount");
+  const badge = $("cartCount");
   if(badge) badge.textContent = cartCount();
 }
 
+/* =========================
+   MENU CONTROLS
+========================= */
+
+export function toggleMenu(){
+  const sheet = $("sheet");
+  if(!sheet) return;
+  sheet.classList.toggle("open");
+}
+
+export function closeMenu(){
+  const sheet = $("sheet");
+  if(!sheet) return;
+  sheet.classList.remove("open");
+}
+
+/* =========================
+   CHECKOUT / PAYMENT MODAL
+========================= */
+
 export function buildWhatsAppMessage(site, items, total, reference){
   const lines = [];
-  lines.push(`Hello ${site.brand}, I want to place an order.`);
+  lines.push(`Hello ${site?.brand || "SATECH"}, I want to place an order.`);
   lines.push(`Reference: ${reference}`);
   lines.push("");
   lines.push("Items:");
-  items.forEach(i => lines.push(`- ${i.name} x${i.qty} = ${fmtZar(i.price*i.qty)}`));
+  items.forEach(i => lines.push(`- ${i.name} x${i.qty} = ${fmtZar(i.price * i.qty)}`));
   lines.push("");
   lines.push(`Total: ${fmtZar(total)}`);
   lines.push("");
@@ -145,7 +159,10 @@ export function buildWhatsAppMessage(site, items, total, reference){
 }
 
 export function openPaymentModal(site, total, reference, waMessage){
-  document.getElementById("paybox").innerHTML = `
+  const overlay = $("overlay");
+  if(!overlay) return;
+
+  $("paybox").innerHTML = `
     <div><b>Bank:</b> ${site.payment.bank}</div>
     <div><b>Account Name:</b> ${site.payment.accountName}</div>
     <div><b>Account Number:</b> ${site.payment.accountNumber}</div>
@@ -153,22 +170,23 @@ export function openPaymentModal(site, total, reference, waMessage){
     <div><b>Reference:</b> ${reference}</div>
   `;
 
-  document.getElementById("dueText").textContent = fmtZar(total);
-  document.getElementById("payEmail").textContent = site.email;
-  document.getElementById("payWhatsapp").textContent = site.whatsappDisplay;
+  $("dueText").textContent = fmtZar(total);
+  $("payEmail").textContent = site.email;
+  $("payWhatsapp").textContent = site.whatsappDisplay;
 
-  const overlay = document.getElementById("overlay");
   overlay.style.display = "flex";
-  overlay.setAttribute("aria-hidden","false");
 
-  document.getElementById("waCheckoutBtn").onclick = () => {
-    const url = `https://wa.me/${site.whatsappNumber}?text=${encodeMsg(waMessage)}`;
-    window.open(url, "_blank");
-  };
+  // WhatsApp checkout button (optional if exists)
+  const waBtn = $("waCheckoutBtn");
+  if(waBtn){
+    waBtn.onclick = () => {
+      window.open(`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(waMessage)}`, "_blank");
+    };
+  }
 }
 
 export function closePaymentModal(){
-  const overlay = document.getElementById("overlay");
+  const overlay = $("overlay");
+  if(!overlay) return;
   overlay.style.display = "none";
-  overlay.setAttribute("aria-hidden","true");
 }
