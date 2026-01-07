@@ -1,0 +1,108 @@
+:root{
+  --bg:#f6f8fc;
+  --card:#ffffff;
+  --text:#0b1220;
+  --muted:#5b6b7b;
+
+  --primary:#1f66ff;
+  --primary2:#0e4bdb;
+
+  --navy:#071a2f;
+  --navy2:#091f3a;
+
+  --line:rgba(15, 23, 42, .10);
+  --shadow: 0 16px 44px rgba(2, 6, 23, .10);
+
+  --radius:22px;
+  --pill:999px;
+  --maxw:460px;
+
+  --focus: 0 0 0 4px rgba(31,102,255,.18);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background: radial-gradient(1200px 600px at 50% -150px, rgba(31,102,255,.18), transparent 60%),
+              radial-gradient(900px 500px at 20% -120px, rgba(14,75,219,.12), transparent 55%),
+              var(--bg);
+}
+
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+.app{min-height:100vh;display:flex;justify-content:center}
+.phone{
+  width:100%;
+  max-width:var(--maxw);
+  min-height:100vh;
+  background: transparent;
+}
+
+.page{padding:18px 18px 0 18px}
+
+.title{
+  text-align:center;
+  margin:18px 0 10px 0;
+  font-size:40px;
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-.8px;
+}
+.subtitle{
+  text-align:center;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.7;
+  max-width:360px;
+  margin:0 auto;
+}
+
+.hero{
+  margin:18px auto 0 auto;
+  padding:18px;
+  width:100%;
+}
+.hero-card{
+  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.72));
+  border:1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding:18px;
+  overflow:hidden;
+  position:relative;
+}
+.hero-card:before{
+  content:"";
+  position:absolute;
+  inset:-120px -120px auto auto;
+  width:260px;
+  height:260px;
+  background: radial-gradient(circle at 30% 30%, rgba(31,102,255,.35), transparent 60%);
+  filter: blur(2px);
+  transform: rotate(12deg);
+}
+.hero-image{
+  margin-top:12px;
+  border-radius:22px;
+  border:1px solid rgba(0,0,0,.06);
+  background: linear-gradient(180deg,#f7f9ff,#f1f5ff);
+  padding:14px;
+}
+.hero-image img{
+  width:100%;
+  height:260px;
+  object-fit:contain;
+}
+
+.grid{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  padding:18px 0 18px;
+}
+
+.hidden{display:none !important}
