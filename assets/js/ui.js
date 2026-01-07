@@ -72,7 +72,7 @@ export function renderFooter(site, categories){
 
       <div class="col">
         <h4>Powered By</h4>
-        <p>CMSTUDIO</p>
+        <p>SATECH ENTEPRISE</p>
       </div>
     </div>
   `;
