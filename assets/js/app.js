@@ -1,8 +1,19 @@
 import { loadData } from "./api.js";
 import { route, go } from "./router.js";
 import { addToCart, getCart, setQty } from "./store.js";
-import { renderTopbar, renderFooter, renderMenu, updateCartBadge, openPaymentModal, closePaymentModal, buildWhatsAppMessage, closeMenu } from "./ui.js";
+import {
+  renderTopbar,
+  renderFooter,
+  renderMenu,
+  updateCartBadge,
+  openPaymentModal,
+  closePaymentModal,
+  buildWhatsAppMessage,
+  closeMenu
+} from "./ui.js";
 import { fmtZar, capWords } from "./utils.js";
+
+// ✅ Firebase auth
 import { signup, login, logout, getSession, requireAuth } from "./auth.js";
 
 const view = () => document.getElementById("view");
@@ -11,7 +22,10 @@ let SITE = null;
 let CATEGORIES = [];
 let PRODUCTS = [];
 
-window.addEventListener("hashchange", async () => { await render(); closeMenu(); });
+window.addEventListener("hashchange", async () => {
+  await render();
+  closeMenu();
+});
 
 window.addEventListener("load", async () => {
   const { site, catalog } = await loadData();
@@ -21,7 +35,8 @@ window.addEventListener("load", async () => {
   await render();
 });
 
-async function render(){
+async function render() {
+  // ✅ these are async now because Firebase session is async
   await renderTopbar(SITE);
   renderFooter(SITE, CATEGORIES);
   await renderMenu(CATEGORIES);
@@ -32,25 +47,30 @@ async function render(){
 
   // Hide back button on home
   const backBtn = document.getElementById("backBtn");
-  if(backBtn) backBtn.style.visibility = (r.raw === "#/" || r.raw === "#" || r.raw === "") ? "hidden" : "visible";
+  if (backBtn) backBtn.style.visibility = (r.raw === "#/" || r.raw === "#" || r.raw === "") ? "hidden" : "visible";
 
-  // AUTH ROUTES
-  if(parts[0] === "login") return renderLogin();
-  if(parts[0] === "signup") return renderSignup();
-  if(parts[0] === "account") return renderAccount();
-  if(parts[0] === "logout") { await logout(); go("#/"); return; }
+  // ✅ AUTH ROUTES
+  if (parts[0] === "login") return renderLogin();
+  if (parts[0] === "signup") return renderSignup();
+  if (parts[0] === "account") return renderAccount();
+  if (parts[0] === "logout") {
+    await logout();
+    go("#/");
+    return;
+  }
 
-  if(parts[0] === "" || parts[0] === undefined) return renderHome();
-  if(parts[0] === "category") return renderCategory(parts[1]);
-  if(parts[0] === "product") return renderProduct(parts[1]);
-  if(parts[0] === "cart") return renderCart();
-  if(parts[0] === "contact") return renderContact();
-  if(parts[0] === "service") return renderService(parts[1]);
+  // SHOP ROUTES
+  if (parts[0] === "" || parts[0] === undefined) return renderHome();
+  if (parts[0] === "category") return renderCategory(parts[1]);
+  if (parts[0] === "product") return renderProduct(parts[1]);
+  if (parts[0] === "cart") return renderCart();
+  if (parts[0] === "contact") return renderContact();
+  if (parts[0] === "service") return renderService(parts[1]);
 
   return renderHome();
 }
 
-function renderHome(){
+function renderHome() {
   view().innerHTML = `
     <section class="page page-anim">
       <div class="title">SATECH</div>
@@ -90,10 +110,9 @@ function renderHome(){
   });
 }
 
-function renderCategory(slug){
+function renderCategory(slug) {
   const cat = CATEGORIES.find(c => c.slug === slug);
   const all = PRODUCTS.filter(p => p.category === slug);
-
   const brands = [...new Set(all.map(p => p.brand).filter(Boolean))].sort();
 
   view().innerHTML = `
@@ -144,23 +163,23 @@ function renderCategory(slug){
     </section>
   `;
 
-  const state = { q:"", brand:"", sort:"featured", min:"", max:"" };
+  const state = { q: "", brand: "", sort: "featured", min: "", max: "" };
   const listEl = document.getElementById("list");
 
   const renderList = () => {
     let list = [...all];
 
-    if(state.q){
+    if (state.q) {
       const q = state.q.toLowerCase();
-      list = list.filter(p => (p.name||"").toLowerCase().includes(q));
+      list = list.filter(p => (p.name || "").toLowerCase().includes(q));
     }
-    if(state.brand) list = list.filter(p => p.brand === state.brand);
-    if(state.min !== "") list = list.filter(p => p.price >= Number(state.min));
-    if(state.max !== "") list = list.filter(p => p.price <= Number(state.max));
+    if (state.brand) list = list.filter(p => p.brand === state.brand);
+    if (state.min !== "") list = list.filter(p => p.price >= Number(state.min));
+    if (state.max !== "") list = list.filter(p => p.price <= Number(state.max));
 
-    if(state.sort === "price-asc") list.sort((a,b)=>a.price-b.price);
-    if(state.sort === "price-desc") list.sort((a,b)=>b.price-a.price);
-    if(state.sort === "name-asc") list.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    if (state.sort === "price-asc") list.sort((a, b) => a.price - b.price);
+    if (state.sort === "price-desc") list.sort((a, b) => b.price - a.price);
+    if (state.sort === "name-asc") list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
     listEl.innerHTML = list.map(p => `
       <div class="card">
@@ -199,21 +218,21 @@ function renderCategory(slug){
   document.getElementById("max").oninput = e => { state.max = e.target.value; renderList(); };
 
   document.getElementById("clearFilters").onclick = () => {
-    state.q=""; state.brand=""; state.sort="featured"; state.min=""; state.max="";
-    document.getElementById("q").value="";
-    document.getElementById("brand").value="";
-    document.getElementById("sort").value="featured";
-    document.getElementById("min").value="";
-    document.getElementById("max").value="";
+    state.q = ""; state.brand = ""; state.sort = "featured"; state.min = ""; state.max = "";
+    document.getElementById("q").value = "";
+    document.getElementById("brand").value = "";
+    document.getElementById("sort").value = "featured";
+    document.getElementById("min").value = "";
+    document.getElementById("max").value = "";
     renderList();
   };
 
   renderList();
 }
 
-function renderProduct(id){
+function renderProduct(id) {
   const p = PRODUCTS.find(x => x.id === id);
-  if(!p) return go("#/");
+  if (!p) return go("#/");
 
   const imgs = p.images || [];
   const specs = p.specs || {};
@@ -297,7 +316,7 @@ function renderProduct(id){
   };
 }
 
-function renderCart(){
+function renderCart() {
   const cart = getCart();
   const items = Object.entries(cart)
     .map(([id, qty]) => {
@@ -363,9 +382,9 @@ function renderCart(){
   });
 
   const checkoutBtn = document.getElementById("checkoutBtn");
-  if(checkoutBtn){
+  if (checkoutBtn) {
     checkoutBtn.onclick = async () => {
-      // ✅ REQUIRE LOGIN BEFORE CHECKOUT
+      // ✅ MUST LOGIN BEFORE CHECKOUT
       try { await requireAuth(); }
       catch { go("#/login"); return; }
 
@@ -376,7 +395,7 @@ function renderCart(){
   }
 }
 
-function renderContact(){
+function renderContact() {
   view().innerHTML = `
     <section class="page page-anim">
       <div class="title">Contact SATECH<br>ENTERPRISE</div>
@@ -404,7 +423,7 @@ function renderContact(){
   `;
 }
 
-function renderService(slug){
+function renderService(slug) {
   view().innerHTML = `
     <section class="page page-anim">
       <div class="title">${capWords((slug||"service").replaceAll("-"," "))}</div>
@@ -418,15 +437,13 @@ function renderService(slug){
   document.getElementById("contactBtn").onclick = () => go("#/contact");
 }
 
-/* =========================
-   AUTH PAGES
-========================= */
+/* ✅ AUTH PAGES */
 
 function renderLogin(){
   view().innerHTML = `
     <section class="page page-anim">
       <div class="title">Login</div>
-      <p class="subtitle">Access your account to checkout faster.</p>
+      <p class="subtitle">Login to continue to checkout.</p>
 
       <div class="card" style="margin-top:18px">
         <div class="card-inner">
@@ -467,7 +484,7 @@ function renderSignup(){
   view().innerHTML = `
     <section class="page page-anim">
       <div class="title">Sign Up</div>
-      <p class="subtitle">Create an account for easy checkout.</p>
+      <p class="subtitle">Create an account.</p>
 
       <div class="card" style="margin-top:18px">
         <div class="card-inner">
@@ -509,12 +526,12 @@ function renderSignup(){
 
 async function renderAccount(){
   const s = await getSession();
-  if(!s) { go("#/login"); return; }
+  if(!s){ go("#/login"); return; }
 
   view().innerHTML = `
     <section class="page page-anim">
       <div class="title">My Account</div>
-      <p class="subtitle">Welcome back, <b>${s.name}</b>.</p>
+      <p class="subtitle">Welcome, <b>${s.name}</b></p>
 
       <div class="card" style="margin-top:18px">
         <div class="card-inner">
