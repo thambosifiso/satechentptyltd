@@ -1,5 +1,6 @@
 export async function loadJSON(path){
-  const res = await fetch(path, { cache: "no-store" });
+  const url = `${path}?v=${Date.now()}`;
+  const res = await fetch(url, { cache: "no-store" });
   if(!res.ok) throw new Error(`Failed to load ${path}`);
   return await res.json();
 }

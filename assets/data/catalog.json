@@ -5,6 +5,36 @@
       "title": "Apple iPhones",
       "desc": "Original Apple iPhones. New and pre-owned devices, tested and verified.",
       "heroImg": "assets/img/products/iphone-hero.png"
+    },
+    {
+      "slug": "new-laptops",
+      "title": "New Laptops",
+      "desc": "Reliable new laptops for work, school and business performance.",
+      "heroImg": "assets/img/products/laptop-hero.png"
+    },
+    {
+      "slug": "refurbished-laptops",
+      "title": "Refurbished Laptops",
+      "desc": "Quality refurbished laptops tested and ready to perform.",
+      "heroImg": "assets/img/products/refurb-hero.png"
+    },
+    {
+      "slug": "accessories",
+      "title": "Tech Accessories",
+      "desc": "Chargers, cables, cases, headphones and more.",
+      "heroImg": "assets/img/products/accessories-hero.png"
+    },
+    {
+      "slug": "technical-fixing",
+      "title": "Technical Fixing",
+      "desc": "Phone and laptop repairs, troubleshooting and upgrades.",
+      "heroImg": "assets/img/products/repairs-hero.png"
+    },
+    {
+      "slug": "consultation",
+      "title": "Consultation",
+      "desc": "Expert advice, setup, business IT guidance and device assessments.",
+      "heroImg": "assets/img/products/consultation-hero.png"
     }
   ],
   "products": [
@@ -14,7 +44,7 @@
       "name": "iPhone 7",
       "brand": "Apple",
       "condition": "Used",
-      "price": 2499,
+      "price": 10000,
       "images": ["assets/img/products/iphone-7.png"],
       "specs": { "Storage": "32GB", "Warranty": "1 Month" },
       "highlights": ["Fully tested", "Good condition"]
@@ -64,13 +94,13 @@
       "highlights": ["Dual camera", "Fast performance"]
     },
     {
-      "id": "iPhone12",
+      "id": "iphone12",
       "category": "iphones",
       "name": "iPhone 12",
       "brand": "Apple",
       "condition": "Refurbished",
       "price": 100000,
-      "images": ["assets/img/products/iPhone12.png"],
+      "images": ["assets/img/products/iphone-12.png"],
       "specs": { "Storage": "128GB", "Warranty": "6 Months" },
       "highlights": ["5G ready", "OLED display"]
     },
@@ -128,6 +158,143 @@
       "images": ["assets/img/products/iphone-17.png"],
       "specs": { "Storage": "256GB", "Warranty": "12 Months" },
       "highlights": ["Top performance", "Best camera Apple has made"]
+    },
+
+    {
+      "id": "new-laptop-hp-1",
+      "category": "new-laptops",
+      "name": "HP Laptop (New)",
+      "brand": "HP",
+      "condition": "New",
+      "price": 8999,
+      "images": ["assets/img/products/laptop-new-hp.png"],
+      "specs": { "RAM": "8GB", "Storage": "256GB SSD", "Warranty": "12 Months" },
+      "highlights": ["Great for work & school", "Fast SSD", "Brand new"]
+    },
+    {
+      "id": "new-laptop-lenovo-1",
+      "category": "new-laptops",
+      "name": "Lenovo Laptop (New)",
+      "brand": "Lenovo",
+      "condition": "New",
+      "price": 9999,
+      "images": ["assets/img/products/laptop-new-lenovo.png"],
+      "specs": { "RAM": "8GB", "Storage": "512GB SSD", "Warranty": "12 Months" },
+      "highlights": ["Great performance", "Large storage", "Brand new"]
+    },
+
+    {
+      "id": "refurb-laptop-dell-1",
+      "category": "refurbished-laptops",
+      "name": "Dell Laptop (Refurbished)",
+      "brand": "Dell",
+      "condition": "Refurbished",
+      "price": 6499,
+      "images": ["assets/img/products/laptop-refurb-dell.png"],
+      "specs": { "RAM": "8GB", "Storage": "256GB SSD", "Warranty": "6 Months" },
+      "highlights": ["Tested & verified", "Best value", "Ready to use"]
+    },
+    {
+      "id": "refurb-laptop-hp-1",
+      "category": "refurbished-laptops",
+      "name": "HP Laptop (Refurbished)",
+      "brand": "HP",
+      "condition": "Refurbished",
+      "price": 6999,
+      "images": ["assets/img/products/laptop-refurb-hp.png"],
+      "specs": { "RAM": "8GB", "Storage": "256GB SSD", "Warranty": "6 Months" },
+      "highlights": ["Reliable", "Great for school", "Tested & verified"]
+    },
+
+    {
+      "id": "acc-fast-charger",
+      "category": "accessories",
+      "name": "Fast Charger (20W USB-C)",
+      "brand": "Generic",
+      "condition": "New",
+      "price": 299,
+      "images": ["assets/img/products/accessory-charger.png"],
+      "specs": { "Type": "USB-C", "Power": "20W" },
+      "highlights": ["Quick charge", "Compact", "Durable"]
+    },
+    {
+      "id": "acc-earpods",
+      "category": "accessories",
+      "name": "Wireless Earbuds",
+      "brand": "Generic",
+      "condition": "New",
+      "price": 899,
+      "images": ["assets/img/products/accessory-earbuds.png"],
+      "specs": { "Connectivity": "Bluetooth", "Case": "Charging case" },
+      "highlights": ["Clear sound", "Portable", "Great value"]
+    },
+    {
+      "id": "acc-case",
+      "category": "accessories",
+      "name": "iPhone Protective Case",
+      "brand": "Generic",
+      "condition": "New",
+      "price": 199,
+      "images": ["assets/img/products/accessory-case.png"],
+      "specs": { "Material": "TPU/Silicone", "Protection": "Shock resistant" },
+      "highlights": ["Slim design", "Strong protection", "Easy grip"]
+    },
+
+    {
+      "id": "service-phone-screen",
+      "category": "technical-fixing",
+      "name": "Phone Screen Replacement",
+      "brand": "Service",
+      "condition": "Service",
+      "price": 799,
+      "images": ["assets/img/products/service-phone-screen.png"],
+      "specs": { "Time": "Same day (if parts available)", "Warranty": "30 Days" },
+      "highlights": ["Professional repair", "Quality parts", "Quick turnaround"]
+    },
+    {
+      "id": "service-laptop-repair",
+      "category": "technical-fixing",
+      "name": "Laptop Repair & Diagnostics",
+      "brand": "Service",
+      "condition": "Service",
+      "price": 350,
+      "images": ["assets/img/products/service-laptop-diagnostic.png"],
+      "specs": { "Includes": "Diagnostic check", "Time": "24-48 hours" },
+      "highlights": ["Fault finding", "Repair quote provided", "Expert support"]
+    },
+    {
+      "id": "service-software-fix",
+      "category": "technical-fixing",
+      "name": "Software Troubleshooting",
+      "brand": "Service",
+      "condition": "Service",
+      "price": 250,
+      "images": ["assets/img/products/service-software.png"],
+      "specs": { "Includes": "Cleanup + fixes", "Time": "1-2 hours" },
+      "highlights": ["Speed up device", "Fix errors", "Remove unwanted apps"]
+    },
+
+    {
+      "id": "consult-basic",
+      "category": "consultation",
+      "name": "Device Consultation (Basic)",
+      "brand": "Service",
+      "condition": "Service",
+      "price": 150,
+      "images": ["assets/img/products/consult-basic.png"],
+      "specs": { "Duration": "30 minutes", "Type": "In-store / WhatsApp" },
+      "highlights": ["Buying advice", "Setup guidance", "Best options for your budget"]
+    },
+    {
+      "id": "consult-business",
+      "category": "consultation",
+      "name": "Business IT Consultation",
+      "brand": "Service",
+      "condition": "Service",
+      "price": 500,
+      "images": ["assets/img/products/consult-business.png"],
+      "specs": { "Duration": "1 hour", "Type": "On-site / Remote" },
+      "highlights": ["Network advice", "Business setup", "Cost-saving solutions"]
     }
   ]
 }
