@@ -3,73 +3,131 @@
     {
       "slug": "iphones",
       "title": "Apple iPhones",
-      "desc": "Original iPhones, new & used, tested, verified and ready to perform.",
-      "heroImg": "https://images.unsplash.com/photo-1603898037225-58b0a3f8f0a9?auto=format&fit=crop&w=1200&q=70"
-    },
-    {
-      "slug": "accessories",
-      "title": "Tech Accessories",
-      "desc": "High-quality accessories to protect, power and enhance your devices.",
-      "heroImg": "https://images.unsplash.com/photo-1585386959984-a41552231693?auto=format&fit=crop&w=1200&q=70"
-    },
-    {
-      "slug": "new-laptops",
-      "title": "New Laptops",
-      "desc": "Reliable laptops for work, school and business performance.",
-      "heroImg": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=70"
+      "desc": "Original Apple iPhones. New and pre-owned devices, tested and verified.",
+      "heroImg": "assets/img/products/iphone-hero.png"
     }
   ],
   "products": [
     {
-      "id": "ipx",
+      "id": "iphone-7",
+      "category": "iphones",
+      "name": "iPhone 7",
+      "brand": "Apple",
+      "condition": "Used",
+      "price": 2499,
+      "images": ["assets/img/products/iphone-7.png"],
+      "specs": { "Storage": "32GB", "Warranty": "1 Month" },
+      "highlights": ["Fully tested", "Good condition"]
+    },
+    {
+      "id": "iphone-8",
+      "category": "iphones",
+      "name": "iPhone 8",
+      "brand": "Apple",
+      "condition": "Used",
+      "price": 2999,
+      "images": ["assets/img/products/iphone-8.png"],
+      "specs": { "Storage": "64GB", "Warranty": "1 Month" },
+      "highlights": ["Touch ID", "Reliable performance"]
+    },
+    {
+      "id": "iphone-x",
       "category": "iphones",
       "name": "iPhone X",
       "brand": "Apple",
       "condition": "Used",
-      "price": 4999,
-      "images": [
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=70",
-        "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=1200&q=70"
-      ],
-      "specs": {
-        "Storage": "64GB",
-        "Color": "Space Gray",
-        "Warranty": "3 Months",
-        "Battery Health": "80%+"
-      },
-      "highlights": ["Tested & verified", "Face ID", "Great value"]
+      "price": 3499,
+      "images": ["assets/img/products/iphone-x.png"],
+      "specs": { "Storage": "64GB", "Warranty": "3 Months" },
+      "highlights": ["Face ID", "OLED display"]
     },
     {
-      "id": "ipxr",
+      "id": "iphone-xr",
       "category": "iphones",
       "name": "iPhone XR",
       "brand": "Apple",
       "condition": "Used",
-      "price": 5499,
-      "images": [
-        "https://images.unsplash.com/photo-1510557880182-3b6f6d7f37d8?auto=format&fit=crop&w=1200&q=70"
-      ],
-      "specs": {
-        "Storage": "64GB",
-        "Warranty": "3 Months"
-      },
-      "highlights": ["Big screen", "Excellent battery"]
+      "price": 3999,
+      "images": ["assets/img/products/iphone-xr.png"],
+      "specs": { "Storage": "64GB", "Warranty": "3 Months" },
+      "highlights": ["Strong battery life", "Great camera"]
     },
     {
-      "id": "charger",
-      "category": "accessories",
-      "name": "Fast Charger (20W USB-C)",
-      "brand": "Generic",
+      "id": "iphone-11",
+      "category": "iphones",
+      "name": "iPhone 11",
+      "brand": "Apple",
+      "condition": "Used",
+      "price": 4999,
+      "images": ["assets/img/products/iphone-11.png"],
+      "specs": { "Storage": "64GB", "Warranty": "3 Months" },
+      "highlights": ["Dual camera", "Fast performance"]
+    },
+    {
+      "id": "iphone-12",
+      "category": "iphones",
+      "name": "iPhone 12",
+      "brand": "Apple",
+      "condition": "Refurbished",
+      "price": 6999,
+      "images": ["assets/img/products/iphone-12.png"],
+      "specs": { "Storage": "128GB", "Warranty": "6 Months" },
+      "highlights": ["5G ready", "OLED display"]
+    },
+    {
+      "id": "iphone-13",
+      "category": "iphones",
+      "name": "iPhone 13",
+      "brand": "Apple",
+      "condition": "Refurbished",
+      "price": 8499,
+      "images": ["assets/img/products/iphone-13.png"],
+      "specs": { "Storage": "128GB", "Warranty": "6 Months" },
+      "highlights": ["Excellent battery", "Powerful camera"]
+    },
+    {
+      "id": "iphone-14",
+      "category": "iphones",
+      "name": "iPhone 14",
+      "brand": "Apple",
+      "condition": "Refurbished",
+      "price": 9999,
+      "images": ["assets/img/products/iphone-14.png"],
+      "specs": { "Storage": "128GB", "Warranty": "6 Months" },
+      "highlights": ["Cinematic video", "Crash detection"]
+    },
+    {
+      "id": "iphone-15",
+      "category": "iphones",
+      "name": "iPhone 15",
+      "brand": "Apple",
       "condition": "New",
-      "price": 299,
-      "images": [
-        "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=1200&q=70"
-      ],
-      "specs": {
-        "Type": "USB-C",
-        "Power": "20W"
-      },
-      "highlights": ["Quick charge", "Compact"]
+      "price": 12999,
+      "images": ["assets/img/products/iphone-15.png"],
+      "specs": { "Storage": "128GB", "Warranty": "12 Months" },
+      "highlights": ["USB-C", "48MP camera"]
+    },
+    {
+      "id": "iphone-16",
+      "category": "iphones",
+      "name": "iPhone 16",
+      "brand": "Apple",
+      "condition": "New",
+      "price": 14999,
+      "images": ["assets/img/products/iphone-16.png"],
+      "specs": { "Storage": "256GB", "Warranty": "12 Months" },
+      "highlights": ["AI features", "Improved battery"]
+    },
+    {
+      "id": "iphone-17-pro-max",
+      "category": "iphones",
+      "name": "iPhone 17 Pro Max",
+      "brand": "Apple",
+      "condition": "New",
+      "price": 18999,
+      "images": ["assets/img/products/iphone-17.png"],
+      "specs": { "Storage": "256GB", "Warranty": "12 Months" },
+      "highlights": ["Top performance", "Best camera Apple has made"]
     }
   ]
 }
